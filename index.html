@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vịt quay Quảng Đông - Hiền Béo</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="header-banner">
+      <h3 class="fw-bold">Vịt Quay Quảng Đông</h3>
+      <h5>Hiền Béo - An Bình City</h5>
+      <p class="mb-0">
+        Hotline:
+        <a href="tel:0384644216" class="text-white text-decoration-none"
+          >0384.644.216</a
+        >
+      </p>
+    </div>
+
+    <div class="container mt-4 mb-5">
+      <form id="order-form">
+        <h5 class="mb-3 fw-bold">Thực đơn hôm nay</h5>
+
+        <div id="menu-list"></div>
+
+        <div class="card menu-card mt-4">
+          <div class="card-body">
+            <h5 class="fw-bold mb-3">Thông tin giao hàng</h5>
+            <div class="mb-3">
+              <input
+                type="text"
+                name="Họ tên"
+                class="form-control"
+                placeholder="Họ và tên của bạn"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="tel"
+                name="SĐT"
+                class="form-control"
+                placeholder="Số điện thoại"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <textarea
+                name="Địa chỉ"
+                class="form-control"
+                rows="2"
+                placeholder="Số phòng/Địa chỉ nhận hàng"
+                required
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <textarea
+                name="Ghi chú"
+                class="form-control"
+                rows="2"
+                placeholder="Ghi chú cho Shop"
+                required
+              ></textarea>
+            </div>
+            <input type="hidden" name="Nội dung" id="order-summary" />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-order fw-bold" id="submit-btn">
+            ĐẶT HÀNG NGAY
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="footer-info">Chúc quý khách ngon miệng! ❤️</div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
