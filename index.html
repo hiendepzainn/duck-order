@@ -14,80 +14,377 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
 
-    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Lexend", sans-serif;
+        background-color: #f1f2f6;
+      }
+      .header-banner {
+        background: #d63031;
+        color: white;
+        padding: 25px 15px;
+        text-align: center;
+        border-radius: 0 0 25px 25px;
+      }
+      .category-title {
+        color: #d63031;
+        font-weight: bold;
+        margin-top: 25px;
+        margin-bottom: 12px;
+        border-left: 5px solid #d63031;
+        padding-left: 10px;
+      }
+      .menu-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 12px;
+        overflow: hidden;
+      }
+      .food-img {
+        width: 85px;
+        height: 85px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-right: 12px;
+      }
+      .price {
+        color: #d63031;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+      .qty-container {
+        display: flex;
+        align-items: center;
+        background: #eee;
+        border-radius: 10px;
+        padding: 2px;
+      }
+      .btn-qty {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        border: none;
+        background: white;
+        color: #d63031;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .qty-display {
+        width: 35px;
+        text-align: center;
+        font-weight: bold;
+        border: none;
+        background: transparent;
+        pointer-events: none;
+      }
+      .info-section {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+      .total-box {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        padding: 15px;
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        border-radius: 20px 20px 0 0;
+      }
+      .btn-order {
+        background-color: #d63031;
+        border: none;
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        width: 100%;
+        color: white;
+      }
+    </style>
   </head>
   <body>
     <div class="header-banner">
-      <h3 class="fw-bold">Vịt Quay Quảng Đông</h3>
-      <h5>Hiền Béo - An Bình City</h5>
-      <p class="mb-0">
-        Hotline:
-        <a href="tel:0384644216" class="text-white text-decoration-none"
-          >0384.644.216</a
-        >
-      </p>
+      <h3 class="fw-bold">Vịt Quay Hiền Béo</h3>
+      <p class="mb-0">An Bình City - 0384.644.216</p>
     </div>
 
-    <div class="container mt-4 mb-5">
+    <div class="container mb-5">
       <form id="order-form">
-        <h5 class="mb-3 fw-bold">Thực đơn hôm nay</h5>
+        <h5 class="category-title text-uppercase">🔥 Vịt Ngon Quảng Đông</h5>
+        <div id="group-vit"></div>
 
-        <div id="menu-list"></div>
+        <h5 class="category-title text-uppercase">🍜 Cơm & Bún</h5>
+        <div id="group-com-bun"></div>
 
-        <div class="card menu-card mt-4">
-          <div class="card-body">
-            <h5 class="fw-bold mb-3">Thông tin giao hàng</h5>
-            <div class="mb-3">
+        <h5 class="category-title text-uppercase">➕ Dùng thêm</h5>
+        <div id="group-them"></div>
+
+        <div class="info-section">
+          <h5 class="fw-bold mb-3">
+            <i class="fas fa-shipping-fast me-2"></i>Thông tin nhận hàng
+          </h5>
+
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label small fw-bold">Ngày nhận</label>
               <input
-                type="text"
-                name="Họ tên"
+                type="date"
+                name="Ngày giao"
                 class="form-control"
-                placeholder="Họ và tên của bạn"
+                id="delivery-date"
                 required
               />
             </div>
-            <div class="mb-3">
-              <input
-                type="tel"
-                name="SĐT"
-                class="form-control"
-                placeholder="Số điện thoại"
-                required
-              />
+            <div class="col-6 mb-3">
+              <label class="form-label small fw-bold">Ca nhận</label>
+              <div class="d-flex gap-2 pt-1">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Ca giao"
+                    value="Trưa"
+                    id="ca1"
+                    checked
+                  />
+                  <label class="form-check-label small" for="ca1">Trưa</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Ca giao"
+                    value="Tối"
+                    id="ca2"
+                  />
+                  <label class="form-check-label small" for="ca2">Tối</label>
+                </div>
+              </div>
             </div>
-            <div class="mb-3">
-              <textarea
-                name="Địa chỉ"
-                class="form-control"
-                rows="2"
-                placeholder="Số phòng/Địa chỉ nhận hàng"
-                required
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <textarea
-                name="Ghi chú"
-                class="form-control"
-                rows="2"
-                placeholder="Ghi chú cho Shop"
-                required
-              ></textarea>
-            </div>
-            <input type="hidden" name="Nội dung" id="order-summary" />
           </div>
+
+          <div class="mb-3">
+            <input
+              type="text"
+              name="Họ tên"
+              class="form-control"
+              placeholder="Tên khách hàng"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="tel"
+              name="SĐT"
+              class="form-control"
+              placeholder="Số điện thoại"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="text"
+              name="Địa chỉ"
+              class="form-control"
+              placeholder="Tòa - Số phòng (VD: A1-1205)"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <textarea
+              name="Ghi chú"
+              class="form-control"
+              rows="2"
+              placeholder="Ghi chú thêm (VD: Không lấy hành, chặt to...)"
+            ></textarea>
+          </div>
+
+          <input type="hidden" name="Nội dung" id="order-summary" />
+          <input type="hidden" name="Tổng tiền" id="total-amount" />
         </div>
 
-        <div class="mt-4">
-          <button type="submit" class="btn btn-order fw-bold" id="submit-btn">
-            ĐẶT HÀNG NGAY
-          </button>
-        </div>
+        <div style="height: 100px"></div>
       </form>
     </div>
 
-    <div class="footer-info">Chúc quý khách ngon miệng! ❤️</div>
+    <div class="total-box">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="fw-bold">Tổng cộng:</span>
+        <span class="price" id="display-total">0k</span>
+      </div>
+      <button
+        type="button"
+        class="btn btn-order fw-bold"
+        onclick="submitForm()"
+      >
+        XÁC NHẬN ĐƠN HÀNG
+      </button>
+    </div>
 
-    <script src="app.js"></script>
+    <script>
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbz6czNzlVfxbGml6BUOFE27QFKJ95xiEbZe66OXYSYFLTkdY50mKAYuwu1ymJPWnOhpFA/exec";
+
+      const menuData = {
+        vit: [
+          {
+            name: "Vịt quay cả con",
+            price: 320,
+            best: true,
+            img: "assets/vit-ca-con.jpg",
+          },
+          {
+            name: "Vịt quay 1/2 con",
+            price: 160,
+            best: false,
+            img: "assets/vit-nua-con.jpg",
+          },
+          {
+            name: "Vịt quay 1/4 con - đùi",
+            price: 100,
+            best: true,
+            img: "assets/vit-dui.jpg",
+          },
+          {
+            name: "Vịt quay 1/4 con - ức",
+            price: 80,
+            best: false,
+            img: "assets/vit-uc2.jpg",
+          },
+        ],
+        comBun: [
+          {
+            name: "Bún vịt quay nước",
+            price: 45,
+            best: false,
+            img: "assets/bun-nuoc.jpg",
+          },
+          {
+            name: "Bún vịt quay trộn",
+            price: 45,
+            best: true,
+            img: "assets/bun-tron.jpg",
+          },
+          {
+            name: "Cơm vịt quay",
+            price: 50,
+            best: true,
+            img: "assets/com-vit.jpg",
+          },
+        ],
+        them: [
+          {
+            name: "Bún thêm",
+            price: 20,
+            best: false,
+            img: "assets/bun-them.jpg",
+          },
+          {
+            name: "Canh măng tiết",
+            price: 50,
+            best: false,
+            img: "assets/canh-mang.jpg",
+          },
+        ],
+      };
+
+      // Mặc định ngày giao là hôm nay
+      document.getElementById("delivery-date").valueAsDate = new Date();
+
+      function renderGroup(groupId, data) {
+        const container = document.getElementById(groupId);
+        data.forEach((item) => {
+          container.innerHTML += `
+                <div class="card menu-card">
+                    <div class="card-body d-flex align-items-center p-2">
+                        <img src="${item.img}" class="food-img" onerror="this.src='https://via.placeholder.com/85?text=Food'">
+                        <div class="flex-grow-1">
+                            <div class="fw-bold text-dark small">${item.name} ${item.best ? '<span class="badge bg-warning text-dark" style="font-size:0.6rem">BEST</span>' : ""}</div>
+                            <div class="price">${item.price}k</div>
+                        </div>
+                        <div class="qty-container">
+                            <button type="button" class="btn-qty" onclick="changeQty(this, -1, ${item.price})">-</button>
+                            <input type="text" class="qty-display quantity-input" data-name="${item.name}" value="0" readonly>
+                            <button type="button" class="btn-qty" onclick="changeQty(this, 1, ${item.price})">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+      }
+
+      let totalVal = 0;
+      function changeQty(btn, delta, price) {
+        const input = btn.parentElement.querySelector(".quantity-input");
+        let newQty = parseInt(input.value) + delta;
+        if (newQty >= 0) {
+          input.value = newQty;
+          totalVal += delta * price;
+          document.getElementById("display-total").innerText = totalVal + "k";
+          document.getElementById("total-amount").value = totalVal + "k";
+          btn.parentElement.style.background = newQty > 0 ? "#d63031" : "#eee";
+          input.style.color = newQty > 0 ? "white" : "black";
+        }
+      }
+
+      function submitForm() {
+        const form = document.getElementById("order-form");
+        let summary = "";
+        let hasItems = false;
+
+        document.querySelectorAll(".quantity-input").forEach((input) => {
+          if (parseInt(input.value) > 0) {
+            summary += `${input.getAttribute("data-name")}: ${input.value}\n`;
+            hasItems = true;
+          }
+        });
+
+        if (!hasItems) {
+          return Swal.fire("Opps!", "Chọn món trước nhé!", "warning");
+        }
+        if (!form.checkValidity()) {
+          return form.reportValidity();
+        }
+
+        document.getElementById("order-summary").value = summary;
+
+        Swal.fire({
+          title: "Đang gửi đơn...",
+          didOpen: () => Swal.showLoading(),
+          allowOutsideClick: false,
+        });
+
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "ĐẶT HÀNG XONG!",
+              text: "Hiền Béo cảm ơn bạn nhé!",
+            });
+            form.reset();
+            totalVal = 0;
+            document.getElementById("display-total").innerText = "0k";
+            document
+              .querySelectorAll(".qty-container")
+              .forEach((c) => (c.style.background = "#eee"));
+            document.getElementById("delivery-date").valueAsDate = new Date();
+          })
+          .catch(() => Swal.fire("Lỗi!", "Vui lòng gọi 0384.644.216", "error"));
+      }
+
+      renderGroup("group-vit", menuData.vit);
+      renderGroup("group-com-bun", menuData.comBun);
+      renderGroup("group-them", menuData.them);
+    </script>
   </body>
 </html>

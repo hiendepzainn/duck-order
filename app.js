@@ -1,13 +1,14 @@
 const scriptURL =
   "https://script.google.com/macros/s/AKfycbxsB__SBt9ULiRRWNTbx1Bo4wb7FcORTOAdRFqG7MEpIk41rDjKmJ44lIuRdDW-nXRQVg/exec"; // DÁN LINK APPS SCRIPT VÀO ĐÂY
 const menuData = [
-  { name: "Vịt quay cả con", price: 320, unit: "k" },
-  { name: "Vịt quay 1/2 con", price: 160, unit: "k" },
-  { name: "Vịt quay 1/4 con - đùi", price: 100, unit: "k" },
-  { name: "Vịt quay 1/4 con - ức", price: 80, unit: "k" },
-  { name: "Bún vịt quay nước", price: 45, unit: "k" },
-  { name: "Bún vịt quay trộn", price: 45, unit: "k" },
-  { name: "Cơm vịt quay", price: 50, unit: "k" },
+  { name: "Vịt quay Quảng Đông - Nguyên con", price: 360, unit: "k" },
+  { name: "Vịt quay Quảng Đông - 1/2 con", price: 190, unit: "k" },
+  { name: "Vịt quay Quảng Đông - 1/4 con, phần Đùi", price: 110, unit: "k" },
+  { name: "Vịt quay Quảng Đông - 1/4 con, phần Ức", price: 90, unit: "k" },
+  { name: "Bún vịt quay - Nước", price: 60, unit: "k" },
+  { name: "Bún vịt quay - Trộn", price: 55, unit: "k" },
+  { name: "Cơm vịt quay", price: 65, unit: "k" },
+  { name: "Cơm vịt quay - Đặc biệt", price: 75, unit: "k" },
 ];
 
 const menuList = document.getElementById("menu-list");
