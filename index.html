@@ -2,8 +2,11 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vịt quay Quảng Đông - Hiền Béo</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Vịt quay Hiền Béo - An Bình City</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -14,6 +17,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -23,6 +27,7 @@
       body {
         font-family: "Lexend", sans-serif;
         background-color: #f1f2f6;
+        padding-bottom: 220px;
       }
       .header-banner {
         background: #d63031;
@@ -56,8 +61,9 @@
       .price {
         color: #d63031;
         font-weight: bold;
-        font-size: 1.1rem;
       }
+
+      /* Bộ đếm +/- */
       .qty-container {
         display: flex;
         align-items: center;
@@ -73,9 +79,6 @@
         background: white;
         color: #d63031;
         font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
       .qty-display {
         width: 35px;
@@ -85,155 +88,268 @@
         background: transparent;
         pointer-events: none;
       }
-      .info-section {
-        background: white;
-        border-radius: 15px;
-        padding: 20px;
-        margin-top: 20px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      }
+
+      /* Thanh thanh toán */
       .total-box {
-        position: sticky;
+        position: fixed;
         bottom: 0;
+        left: 0;
+        right: 0;
         background: white;
-        padding: 15px;
-        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        border-radius: 20px 20px 0 0;
+        padding: 15px 20px;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 25px 25px 0 0;
+        z-index: 9999;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .final-price {
+        font-size: 1.4rem;
+        color: #d63031;
+        font-weight: 800;
       }
       .btn-order {
         background-color: #d63031;
         border: none;
         padding: 12px;
         font-size: 1.1rem;
-        border-radius: 10px;
+        border-radius: 12px;
         width: 100%;
         color: white;
+        margin-top: 8px;
+      }
+
+      /* Button Voucher */
+      #btn-voucher-trigger {
+        display: none;
+        background: #fff5f5;
+        border: 1px dashed #d63031;
+        color: #d63031;
+        border-radius: 8px;
+        padding: 5px 12px;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: left;
+      }
+
+      /* Giao diện Voucher trong Modal */
+      .voucher-item {
+        border: 1px solid #eee;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        position: relative;
+      }
+      .voucher-item.active {
+        border-color: #d63031;
+        background: #fff5f5;
+      }
+      .voucher-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 12px;
+      }
+      .voucher-info h6 {
+        margin: 0;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+      .voucher-info p {
+        margin: 0;
+        font-size: 0.75rem;
+        color: #666;
+      }
+      .disabled-voucher {
+        opacity: 0.5;
+        filter: grayscale(1);
+        cursor: not-allowed;
+      }
+
+      .info-section {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 20px;
       }
     </style>
   </head>
   <body>
     <div class="header-banner">
       <h3 class="fw-bold">Vịt Quay Hiền Béo</h3>
-      <p class="mb-0">An Bình City - 0384.644.216</p>
+      <p class="mb-0 small">An Bình City - Voucher ngập tràn!</p>
     </div>
 
-    <div class="container mb-5">
+    <div class="container mt-3">
       <form id="order-form">
-        <h5 class="category-title text-uppercase">🔥 Vịt Ngon Quảng Đông</h5>
         <div id="group-vit"></div>
-
-        <h5 class="category-title text-uppercase">🍜 Cơm & Bún</h5>
         <div id="group-com-bun"></div>
-
-        <h5 class="category-title text-uppercase">➕ Dùng thêm</h5>
         <div id="group-them"></div>
 
         <div class="info-section">
           <h5 class="fw-bold mb-3">
-            <i class="fas fa-shipping-fast me-2"></i>Thông tin nhận hàng
+            <i class="fas fa-calendar-alt me-2"></i>Lịch giao hàng
           </h5>
+          <h6 class="fw-bold mb-3 mt-4">Thời gian nhận</h6>
+          <div class="mb-3">
+            <input
+              type="date"
+              name="Ngày giao"
+              class="form-control"
+              id="delivery-date"
+              required
+            />
+          </div>
 
-          <div class="row">
-            <div class="col-6 mb-3">
-              <label class="form-label small fw-bold">Ngày nhận</label>
+          <div class="ca-giao-group mb-3">
+            <div class="form-check mb-2">
               <input
-                type="date"
-                name="Ngày giao"
-                class="form-control"
-                id="delivery-date"
-                required
+                class="form-check-input"
+                type="radio"
+                name="Ca giao"
+                value="17h30 - 18h"
+                id="ca1"
+                checked
               />
+              <label class="form-check-label" for="ca1">17h30 - 18h</label>
             </div>
-            <div class="col-6 mb-3">
-              <label class="form-label small fw-bold">Ca nhận</label>
-              <div class="d-flex gap-2 pt-1">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="Ca giao"
-                    value="Trưa"
-                    id="ca1"
-                    checked
-                  />
-                  <label class="form-check-label small" for="ca1">Trưa</label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="Ca giao"
-                    value="Tối"
-                    id="ca2"
-                  />
-                  <label class="form-check-label small" for="ca2">Tối</label>
-                </div>
-              </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Ca giao"
+                value="18h - 18h30"
+                id="ca2"
+              />
+              <label class="form-check-label" for="ca2">18h - 18h30</label>
             </div>
           </div>
 
-          <div class="mb-3">
-            <input
-              type="text"
-              name="Họ tên"
-              class="form-control"
-              placeholder="Tên khách hàng"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <input
-              type="tel"
-              name="SĐT"
-              class="form-control"
-              placeholder="Số điện thoại"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <input
-              type="text"
-              name="Địa chỉ"
-              class="form-control"
-              placeholder="Tòa - Số phòng (VD: A1-1205)"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <textarea
-              name="Ghi chú"
-              class="form-control"
-              rows="2"
-              placeholder="Ghi chú thêm (VD: Không lấy hành, chặt to...)"
-            ></textarea>
-          </div>
+          <h6 class="fw-bold mb-3 mt-4">Người nhận</h6>
+          <input
+            type="text"
+            name="Họ tên"
+            class="form-control mb-3"
+            placeholder="Họ và tên"
+            required
+          />
+          <input
+            type="tel"
+            name="SĐT"
+            class="form-control mb-3"
+            placeholder="Số điện thoại"
+            required
+          />
+          <input
+            type="text"
+            name="Địa chỉ"
+            class="form-control mb-3"
+            placeholder="Số phòng (VD: A1-1205)"
+            required
+          />
+          <textarea
+            name="Ghi chú"
+            class="form-control"
+            rows="2"
+            placeholder="Ghi chú cho quán..."
+          ></textarea>
 
           <input type="hidden" name="Nội dung" id="order-summary" />
-          <input type="hidden" name="Tổng tiền" id="total-amount" />
+          <input
+            type="hidden"
+            name="Voucher"
+            id="input-voucher-name"
+            value="Không"
+          />
+          <input
+            type="hidden"
+            name="Tổng cộng"
+            id="input-subtotal"
+            value="0k"
+          />
+          <input type="hidden" name="Giảm giá" id="input-discount" value="0k" />
+          <input
+            type="hidden"
+            name="Tổng thanh toán"
+            id="input-final"
+            value="0k"
+          />
         </div>
-
-        <div style="height: 100px"></div>
       </form>
     </div>
 
     <div class="total-box">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="fw-bold">Tổng cộng:</span>
-        <span class="price" id="display-total">0k</span>
+      <button
+        type="button"
+        id="btn-voucher-trigger"
+        data-bs-toggle="modal"
+        data-bs-target="#voucherModal"
+      >
+        <i class="fas fa-ticket-alt me-2"></i>
+        <span id="voucher-selected-text">Chọn mã giảm giá</span>
+      </button>
+
+      <div class="small d-flex justify-content-between">
+        <span>Tổng tiền hàng:</span>
+        <span id="display-subtotal">0k</span>
+      </div>
+      <div
+        id="discount-row"
+        class="small d-flex justify-content-between text-success fw-bold"
+        style="display: none !important"
+      >
+        <span>Voucher giảm giá:</span>
+        <span id="display-discount">-0k</span>
+      </div>
+      <hr class="my-1" />
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-bold">THANH TOÁN:</span>
+        <span class="final-price" id="display-final">0k</span>
       </div>
       <button
         type="button"
         class="btn btn-order fw-bold"
         onclick="submitForm()"
       >
-        XÁC NHẬN ĐƠN HÀNG
+        ĐẶT HÀNG NGAY
       </button>
+    </div>
+
+    <div class="modal fade" id="voucherModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px">
+          <div class="modal-header border-0">
+            <h5 class="modal-title fw-bold">Kho Voucher</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="voucher-list"></div>
+          <div class="modal-footer border-0">
+            <button
+              type="button"
+              class="btn btn-danger w-100 fw-bold"
+              style="border-radius: 12px"
+              data-bs-dismiss="modal"
+              onclick="applyVoucher()"
+            >
+              ÁP DỤNG
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
       const scriptURL =
-        "https://script.google.com/macros/s/AKfycbz6czNzlVfxbGml6BUOFE27QFKJ95xiEbZe66OXYSYFLTkdY50mKAYuwu1ymJPWnOhpFA/exec";
+        "https://script.google.com/macros/s/AKfycbzeNt2OMuZzfhc9K6nWkGVr9FzeMt2k9k6b5qGB_UNmi0Tof5XFtZnvnwC-ixDk7eoMxw/exec";
 
       const menuData = {
         vit: [
@@ -259,7 +375,7 @@
             name: "Vịt quay 1/4 con - ức",
             price: 80,
             best: false,
-            img: "assets/vit-uc2.jpg",
+            img: "assets/vit-uc.jpg",
           },
         ],
         comBun: [
@@ -298,63 +414,164 @@
         ],
       };
 
-      // Mặc định ngày giao là hôm nay
-      document.getElementById("delivery-date").valueAsDate = new Date();
+      const vouchers = [
+        {
+          id: "v1",
+          name: "Ưu đãi đặt app",
+          type: "fixed",
+          value: 10,
+          min: 0,
+          img: "assets/voucher.jpg",
+          desc: "Giảm trực tiếp 10k cho mọi đơn đặt qua Web",
+        },
+        {
+          id: "v2",
+          name: "Siêu tiệc Vịt",
+          type: "fixed",
+          value: 30,
+          min: 300,
+          img: "assets/voucher.jpg",
+          desc: "Giảm 30k",
+        },
+        {
+          id: "v3",
+          name: "Black Friday",
+          type: "percent",
+          value: 15,
+          max: 30,
+          min: 150,
+          img: "assets/voucher.jpg",
+          desc: "Giảm 15% (tối đa 30k)",
+        },
+        {
+          id: "v4",
+          name: "Giáng sinh an lành",
+          type: "percent",
+          value: 17,
+          max: 40,
+          min: 370,
+          img: "assets/voucher.jpg",
+          desc: "Giảm 17% (tối đa 40k)",
+        },
+      ];
 
-      function renderGroup(groupId, data) {
+      let currentSubtotal = 0;
+      let selectedVoucher = null;
+
+      function renderGroup(groupId, data, title) {
         const container = document.getElementById(groupId);
+        container.innerHTML = `<h5 class="category-title text-uppercase">${title}</h5>`;
         data.forEach((item) => {
-          container.innerHTML += `
-                <div class="card menu-card">
-                    <div class="card-body d-flex align-items-center p-2">
-                        <img src="${item.img}" class="food-img" onerror="this.src='https://via.placeholder.com/85?text=Food'">
-                        <div class="flex-grow-1">
-                            <div class="fw-bold text-dark small">${item.name} ${item.best ? '<span class="badge bg-warning text-dark" style="font-size:0.6rem">BEST</span>' : ""}</div>
-                            <div class="price">${item.price}k</div>
-                        </div>
-                        <div class="qty-container">
-                            <button type="button" class="btn-qty" onclick="changeQty(this, -1, ${item.price})">-</button>
-                            <input type="text" class="qty-display quantity-input" data-name="${item.name}" value="0" readonly>
-                            <button type="button" class="btn-qty" onclick="changeQty(this, 1, ${item.price})">+</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+          container.innerHTML += `<div class="card menu-card"><div class="card-body d-flex align-items-center p-2"><img src="${item.img}" class="food-img" onerror="this.src='https://via.placeholder.com/85?text=Food'"><div class="flex-grow-1"><div class="fw-bold text-dark small">${item.name}</div><div class="price">${item.price}k</div></div><div class="qty-container"><button type="button" class="btn-qty" onclick="updateQty(this, -1, ${item.price})">-</button><input type="text" class="qty-display quantity-input" data-name="${item.name}" value="0" readonly><button type="button" class="btn-qty" onclick="updateQty(this, 1, ${item.price})">+</button></div></div></div>`;
         });
       }
 
-      let totalVal = 0;
-      function changeQty(btn, delta, price) {
+      function updateQty(btn, delta, price) {
         const input = btn.parentElement.querySelector(".quantity-input");
-        let newQty = parseInt(input.value) + delta;
-        if (newQty >= 0) {
-          input.value = newQty;
-          totalVal += delta * price;
-          document.getElementById("display-total").innerText = totalVal + "k";
-          document.getElementById("total-amount").value = totalVal + "k";
-          btn.parentElement.style.background = newQty > 0 ? "#d63031" : "#eee";
-          input.style.color = newQty > 0 ? "white" : "black";
+        let qty = parseInt(input.value) + delta;
+        if (qty >= 0) {
+          input.value = qty;
+          currentSubtotal += delta * price;
+          btn.parentElement.style.background = qty > 0 ? "#d63031" : "#eee";
+          input.style.color = qty > 0 ? "white" : "black";
+          calculateTotal();
+        }
+      }
+
+      function calculateTotal() {
+        const vBtn = document.getElementById("btn-voucher-trigger");
+        vBtn.style.display = currentSubtotal > 0 ? "block" : "none";
+
+        let discount = 0;
+        if (selectedVoucher) {
+          if (currentSubtotal < selectedVoucher.min) {
+            selectedVoucher = null; // Tự động bỏ voucher nếu không đủ min
+            document.getElementById("voucher-selected-text").innerText =
+              "Voucher không đủ điều kiện (đã bỏ)";
+          } else {
+            if (selectedVoucher.type === "fixed")
+              discount = selectedVoucher.value;
+            else
+              discount = Math.min(
+                selectedVoucher.max,
+                Math.round((currentSubtotal * selectedVoucher.value) / 100),
+              );
+          }
+        }
+
+        document.getElementById("display-subtotal").innerText =
+          currentSubtotal + "k";
+        document.getElementById("display-discount").innerText =
+          "-" + discount + "k";
+        document
+          .getElementById("discount-row")
+          .style.setProperty(
+            "display",
+            discount > 0 ? "flex" : "none",
+            "important",
+          );
+        document.getElementById("display-final").innerText =
+          currentSubtotal - discount + "k";
+
+        // Gán input ẩn
+        document.getElementById("input-subtotal").value = currentSubtotal + "k";
+        document.getElementById("input-discount").value = discount + "k";
+        document.getElementById("input-final").value =
+          currentSubtotal - discount + "k";
+        document.getElementById("input-voucher-name").value = selectedVoucher
+          ? selectedVoucher.name
+          : "Không";
+
+        renderVouchers();
+      }
+
+      function renderVouchers() {
+        const list = document.getElementById("voucher-list");
+        list.innerHTML = "";
+        vouchers.forEach((v) => {
+          const isDisable = currentSubtotal < v.min;
+          list.innerHTML += `
+                <div class="voucher-item d-flex align-items-center ${isDisable ? "disabled-voucher" : ""} ${selectedVoucher?.id === v.id ? "active" : ""}" 
+                     onclick="${isDisable ? "" : `selectVoucher('${v.id}')`}">
+                    <img src="${v.img}" class="voucher-img" onerror="this.src='https://via.placeholder.com/60?text=Voucher'">
+                    <div class="voucher-info flex-grow-1">
+                        <h6>${v.name}</h6>
+                        <p>${v.desc}</p>
+                        ${v.min > 0 ? `<p class="text-danger">Đơn tối thiểu: ${v.min}k</p>` : ""}
+                    </div>
+                    <input type="radio" name="v_choice" class="form-check-input" ${selectedVoucher?.id === v.id ? "checked" : ""} ${isDisable ? "disabled" : ""}>
+                </div>`;
+        });
+      }
+
+      function selectVoucher(id) {
+        selectedVoucher = vouchers.find((v) => v.id === id);
+        renderVouchers();
+      }
+
+      function applyVoucher() {
+        if (selectedVoucher) {
+          document.getElementById("voucher-selected-text").innerText =
+            "Đã chọn: " + selectedVoucher.name;
+          calculateTotal();
         }
       }
 
       function submitForm() {
         const form = document.getElementById("order-form");
         let summary = "";
-        let hasItems = false;
 
         document.querySelectorAll(".quantity-input").forEach((input) => {
           if (parseInt(input.value) > 0) {
             summary += `${input.getAttribute("data-name")}: ${input.value}\n`;
-            hasItems = true;
           }
         });
 
-        if (!hasItems) {
+        if (!summary) {
           return Swal.fire("Opps!", "Chọn món trước nhé!", "warning");
         }
-        if (!form.checkValidity()) {
-          return form.reportValidity();
-        }
+
+        if (!form.checkValidity()) return form.reportValidity();
 
         document.getElementById("order-summary").value = summary;
 
@@ -364,27 +581,27 @@
           allowOutsideClick: false,
         });
 
-        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+        fetch(scriptURL, {
+          method: "POST",
+          body: new FormData(form),
+        })
+          .then((res) => res.text())
           .then(() => {
             Swal.fire({
               icon: "success",
-              title: "ĐẶT HÀNG XONG!",
-              text: "Hiền Béo cảm ơn bạn nhé!",
-            });
-            form.reset();
-            totalVal = 0;
-            document.getElementById("display-total").innerText = "0k";
-            document
-              .querySelectorAll(".qty-container")
-              .forEach((c) => (c.style.background = "#eee"));
-            document.getElementById("delivery-date").valueAsDate = new Date();
+              title: "ĐẶT HÀNG THÀNH CÔNG!",
+            }).then(() => location.reload());
           })
-          .catch(() => Swal.fire("Lỗi!", "Vui lòng gọi 0384.644.216", "error"));
+          .catch((err) => {
+            console.error(err);
+            Swal.fire("Lỗi!", "Vui lòng gọi hotline.", "error");
+          });
       }
 
-      renderGroup("group-vit", menuData.vit);
-      renderGroup("group-com-bun", menuData.comBun);
-      renderGroup("group-them", menuData.them);
+      renderGroup("group-vit", menuData.vit, "🔥 Vịt Ngon Quảng Đông");
+      renderGroup("group-com-bun", menuData.comBun, "🍜 Cơm & Bún");
+      renderGroup("group-them", menuData.them, "➕ Dùng thêm");
+      document.getElementById("delivery-date").valueAsDate = new Date();
     </script>
   </body>
 </html>

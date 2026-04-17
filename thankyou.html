@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thiệp Cảm Ơn Vịt Quay Hiền Béo - Bản Fix</title>
+    <style>
+      /* CSS Reset căn bản để đảm bảo hiển thị đồng nhất */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #f4f4f4;
+        font-family: "Segoe UI", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      /* Tỷ lệ 2:3 (Đã fix kích thước để dễ chụp/in trên khổ A6/A5) */
+      .card {
+        width: 380px; /* Hơi bóp lại một chút để an toàn */
+        height: 580px;
+        background: white;
+        border: 2px solid #000;
+        padding: 25px; /* Giảm padding tổng thể để tăng không gian bên trong */
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Đảm bảo không có gì tràn ra ngoài */
+      }
+
+      /* Đầu trang: Lời cảm ơn */
+      .header {
+        text-align: center;
+        border-bottom: 1px dashed #000;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+      }
+
+      .brand-name {
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .thanks-text {
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 8px;
+      }
+
+      .contact-info {
+        font-size: 12px;
+        font-style: italic;
+        background: #f9f9f9;
+        padding: 6px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        display: inline-block;
+      }
+
+      /* Phần ưu đãi - Đã cập nhật nội dung */
+      .offer-section {
+        margin: 10px 0;
+        padding: 12px;
+        border: 2px dashed #000;
+        text-align: center;
+        border-radius: 6px;
+      }
+
+      .offer-title {
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .offer-text {
+        font-size: 12px;
+        line-height: 1.4;
+        margin-bottom: 8px;
+      }
+
+      .dots {
+        border-bottom: 1px dotted #000;
+        height: 22px;
+        margin: 4px 0;
+        display: block;
+      }
+
+      /* Chi tiết đơn hàng */
+      .order-details {
+        flex-grow: 1; /* Chiếm không gian còn lại */
+        margin-top: 5px;
+        padding-bottom: 15px;
+      }
+
+      .detail-title {
+        font-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 8px;
+        font-size: 13px;
+        display: block;
+      }
+
+      /* Chân trang: Thông tin TK và QR - Đã fix tràn khung */
+      .payment-info {
+        display: flex;
+        align-items: center; /* Căn giữa theo chiều dọc */
+        justify-content: space-between;
+        margin-top: auto; /* Đẩy xuống đáy */
+        border-top: 1px solid #000;
+        padding-top: 12px;
+        padding-bottom: 5px; /* Thêm chút khoảng trống đáy */
+      }
+
+      .bank-details {
+        font-size: 12px;
+        line-height: 1.6;
+        width: 65%; /* Tăng không gian cho chữ */
+        padding-right: 10px;
+      }
+
+      .qr-placeholder {
+        width: 85px; /* Giảm nhẹ kích thước QR */
+        height: 85px;
+        border: 1px solid #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #eee;
+        padding: 3px; /* Padding nhỏ để code nằm gọn */
+      }
+
+      .qr-placeholder img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* Đảm bảo ảnh không bị méo */
+      }
+
+      /* Tối ưu hóa khi in */
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+        }
+        .card {
+          box-shadow: none;
+          border: 2px solid #000;
+          margin: 0 auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="header">
+        <span class="brand-name">Vịt Quay Hiền Béo</span>
+        <div class="thanks-text">
+          Cám ơn Quý khách đã tin yêu và đặt món của cửa hàng!<br />
+          Rất biết ơn nếu nhận được góp ý từ Quý khách ❤️
+        </div>
+        <div class="contact-info">
+          Hỗ trợ kịp thời (SĐT/Zalo): <b>0384.644.216</b>
+        </div>
+      </div>
+
+      <div class="order-details">
+        <span class="detail-title">Chi tiết đơn hàng:</span>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+
+        <div style="margin-top: 12px; font-weight: bold; font-size: 13px">
+          Tổng tiền: .......................................
+        </div>
+      </div>
+
+      <div class="payment-info">
+        <div class="bank-details">
+          <b>THÔNG TIN CHUYỂN KHOẢN</b><br />
+          Ngân hàng: <b>BIDV</b><br />
+          STK: <b>4321917837</b><br />
+          Chủ TK: <b>Dinh Xuan Hien</b><br />
+          Nội dung: <b>Địa chỉ </b><b>[VD: 2409.A6]</b>
+        </div>
+        <div class="qr-placeholder">
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=STK:4321917837-BIDV-DinhXuanHien"
+            alt="QR VietQR"
+          />
+        </div>
+      </div>
+
+      <div class="offer-section">
+        <div class="offer-title">🎁 Quà tặng</div>
+        <div class="offer-text">
+          Cửa hàng xin dành tặng Quý khách một ưu đãi cho đơn hàng tiếp theo. Để
+          áp dụng, hãy nhập mã ưu đãi này vào mục "ghi chú" khi đặt đơn nhé ạ ❤️
+        </div>
+        <div
+          class="dots"
+          style="border-bottom-style: solid; border-bottom-width: 2px"
+        ></div>
+      </div>
+    </div>
+  </body>
+</html>
