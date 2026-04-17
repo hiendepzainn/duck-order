@@ -180,8 +180,8 @@
   </head>
   <body>
     <div class="header-banner">
-      <h3 class="fw-bold">Vịt Quay Hiền Béo</h3>
-      <p class="mb-0 small">An Bình City - Voucher ngập tràn!</p>
+      <h3 class="fw-bold">Vịt quay Quảng Đông - Hiền Béo</h3>
+      <p class="mb-0 small">An Bình City - KĐT TP Giao Lưu</p>
     </div>
 
     <div class="container mt-3">
@@ -355,25 +355,25 @@
         vit: [
           {
             name: "Vịt quay cả con",
-            price: 320,
+            price: 360,
             best: true,
             img: "assets/vit-ca-con.jpg",
           },
           {
             name: "Vịt quay 1/2 con",
-            price: 160,
-            best: false,
+            price: 185,
+            best: true,
             img: "assets/vit-nua-con.jpg",
           },
           {
             name: "Vịt quay 1/4 con - đùi",
-            price: 100,
-            best: true,
+            price: 110,
+            best: false,
             img: "assets/vit-dui.jpg",
           },
           {
             name: "Vịt quay 1/4 con - ức",
-            price: 80,
+            price: 90,
             best: false,
             img: "assets/vit-uc.jpg",
           },
@@ -381,21 +381,15 @@
         comBun: [
           {
             name: "Bún vịt quay nước",
-            price: 45,
+            price: 60,
             best: false,
             img: "assets/bun-nuoc.jpg",
           },
           {
             name: "Bún vịt quay trộn",
-            price: 45,
+            price: 55,
             best: true,
             img: "assets/bun-tron.jpg",
-          },
-          {
-            name: "Cơm vịt quay",
-            price: 50,
-            best: true,
-            img: "assets/com-vit.jpg",
           },
         ],
         them: [
@@ -408,7 +402,7 @@
           {
             name: "Canh măng tiết",
             price: 50,
-            best: false,
+            best: true,
             img: "assets/canh-mang.jpg",
           },
         ],
@@ -462,7 +456,26 @@
         const container = document.getElementById(groupId);
         container.innerHTML = `<h5 class="category-title text-uppercase">${title}</h5>`;
         data.forEach((item) => {
-          container.innerHTML += `<div class="card menu-card"><div class="card-body d-flex align-items-center p-2"><img src="${item.img}" class="food-img" onerror="this.src='https://via.placeholder.com/85?text=Food'"><div class="flex-grow-1"><div class="fw-bold text-dark small">${item.name}</div><div class="price">${item.price}k</div></div><div class="qty-container"><button type="button" class="btn-qty" onclick="updateQty(this, -1, ${item.price})">-</button><input type="text" class="qty-display quantity-input" data-name="${item.name}" value="0" readonly><button type="button" class="btn-qty" onclick="updateQty(this, 1, ${item.price})">+</button></div></div></div>`;
+          // THÊM LOGIC KIỂM TRA BEST SELLER TẠI ĐÂY
+          const bestLabel = item.best
+            ? '<span class=" text-dark" style="font-size:1rem; margin-left: 5px;">⭐</span>'
+            : "";
+
+          container.innerHTML += `
+            <div class="card menu-card">
+                <div class="card-body d-flex align-items-center p-2">
+                    <img src="${item.img}" class="food-img" onerror="this.src='https://via.placeholder.com/85?text=Food'">
+                    <div class="flex-grow-1">
+                        <div class="fw-bold text-dark small">${item.name}${bestLabel}</div>
+                        <div class="price">${item.price}k</div>
+                    </div>
+                    <div class="qty-container">
+                        <button type="button" class="btn-qty" onclick="updateQty(this, -1, ${item.price})">-</button>
+                        <input type="text" class="qty-display quantity-input" data-name="${item.name}" value="0" readonly>
+                        <button type="button" class="btn-qty" onclick="updateQty(this, 1, ${item.price})">+</button>
+                    </div>
+                </div>
+            </div>`;
         });
       }
 
@@ -598,8 +611,8 @@
           });
       }
 
-      renderGroup("group-vit", menuData.vit, "🔥 Vịt Ngon Quảng Đông");
-      renderGroup("group-com-bun", menuData.comBun, "🍜 Cơm & Bún");
+      renderGroup("group-vit", menuData.vit, "🦆 Vịt Ngon Quảng Đông");
+      renderGroup("group-com-bun", menuData.comBun, "🍜 Bún");
       renderGroup("group-them", menuData.them, "➕ Dùng thêm");
       document.getElementById("delivery-date").valueAsDate = new Date();
     </script>
