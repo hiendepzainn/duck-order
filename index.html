@@ -89,7 +89,7 @@
         pointer-events: none;
       }
 
-      /* Thanh thanh toán */
+      /* FIX: Điều chỉnh z-index để không đè lên Modal */
       .total-box {
         position: fixed;
         bottom: 0;
@@ -99,7 +99,7 @@
         padding: 15px 20px;
         box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
         border-radius: 25px 25px 0 0;
-        z-index: 9999;
+        z-index: 1040; /* Thấp hơn z-index của Modal Bootstrap (1050) */
         max-width: 600px;
         margin: 0 auto;
       }
@@ -175,6 +175,12 @@
         border-radius: 15px;
         padding: 20px;
         margin-top: 20px;
+      }
+
+      /* Thêm scroll cho modal body để chắc chắn nút áp dụng luôn thấy được trên màn hình cực ngắn */
+      .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
       }
     </style>
   </head>
@@ -319,7 +325,13 @@
       </button>
     </div>
 
-    <div class="modal fade" id="voucherModal" tabindex="-1" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="voucherModal"
+      tabindex="-1"
+      aria-hidden="true"
+      style="z-index: 1060"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 20px">
           <div class="modal-header border-0">
@@ -456,7 +468,6 @@
         const container = document.getElementById(groupId);
         container.innerHTML = `<h5 class="category-title text-uppercase">${title}</h5>`;
         data.forEach((item) => {
-          // THÊM LOGIC KIỂM TRA BEST SELLER TẠI ĐÂY
           const bestLabel = item.best
             ? '<span class=" text-dark" style="font-size:1rem; margin-left: 5px;">⭐</span>'
             : "";
@@ -498,7 +509,7 @@
         let discount = 0;
         if (selectedVoucher) {
           if (currentSubtotal < selectedVoucher.min) {
-            selectedVoucher = null; // Tự động bỏ voucher nếu không đủ min
+            selectedVoucher = null;
             document.getElementById("voucher-selected-text").innerText =
               "Voucher không đủ điều kiện (đã bỏ)";
           } else {
@@ -526,7 +537,6 @@
         document.getElementById("display-final").innerText =
           currentSubtotal - discount + "k";
 
-        // Gán input ẩn
         document.getElementById("input-subtotal").value = currentSubtotal + "k";
         document.getElementById("input-discount").value = discount + "k";
         document.getElementById("input-final").value =
